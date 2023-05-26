@@ -13,6 +13,6 @@ class AuthUserAction extends AuthAction
     {
         $message = 'Hello World!';
 
-        return $this->respondWithData($message);
+        return $this->respondWithView('index.html');
     }
 }

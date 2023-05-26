@@ -33,9 +33,18 @@ return function(ContainerBuilder $cb)
         },
         Twig::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
-            $twigSettings = $settings['twig'];
 
-            $twig = Twig::create($twigSettings['templates'], $twigSettings);
+            $twigSettings = $settings->get('twig');
+            $twigDebug = $twigSettings['debug'];
+            $twigCache = $twigSettings['cache'];
+            $twigAutoReload = $twigSettings['auto_reload'];
+
+            $twig = Twig::create($twigSettings['templates'], [
+                'debug' => $twigDebug,
+                'cache' => $twigCache,
+                'auto_reload' => $twigAutoReload
+            ]);
+
             $twig->addExtension(new DebugExtension);
 
             return $twig;

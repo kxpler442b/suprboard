@@ -31,9 +31,9 @@ return function(ContainerBuilder $cb)
                 ],
                 'twig' => [
                     'debug' => true,
-                    'cache' => __DIR__ . '/cache/twig',
+                    'cache' => __DIR__ . '/../cache/twig',
                     'auto_reload' => true,
-                    'templates' => __DIR__ . '/templates'
+                    'templates' => __DIR__ . '/../templates'
                 ],
                 'logger' => [
                     'name' => 'suprboard',

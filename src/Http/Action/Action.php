@@ -4,20 +4,24 @@ declare(strict_types = 1);
 
 namespace App\Http\Action;
 
+use Slim\Views\Twig;
 use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7\Response;
 use App\Http\Action\ActionPayload;
+use Psr\Container\ContainerInterface;
 
 abstract class Action
 {
+    protected Twig $twig;
     protected LoggerInterface $logger;
     protected Request $request;
     protected Response $response;
     protected array $args;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {
+        $this->twig = $c->get(Twig::class);
         $this->logger = $logger;
     }
 
@@ -26,6 +30,7 @@ abstract class Action
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
+
 
         return $this->action();
     }
@@ -65,6 +70,11 @@ abstract class Action
         $payload = new ActionPayload($statusCode, $data);
 
         return $this->respond($payload);
+    }
+
+    protected function respondWithView(string $template, array $data = []): Response
+    {
+        return $this->twig->render($this->response, $template, $data);
     }
 
     protected function respond(ActionPayload $payload): Response

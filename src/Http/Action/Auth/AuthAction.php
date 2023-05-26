@@ -6,11 +6,12 @@ namespace App\Http\Action\Auth;
 
 use App\Http\Action\Action;
 use Psr\Log\LoggerInterface;
+use Psr\Container\ContainerInterface;
 
 abstract class AuthAction extends Action
 {
-    public function __construct(LoggerInterface $logger)
+    public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {
-        parent::__construct($logger);
+        parent::__construct($c, $logger);
     }
 }
