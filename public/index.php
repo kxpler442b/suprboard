@@ -10,6 +10,7 @@
 
 declare(strict_types = 1);
 
+use App\Http\Handler\HttpErrorHandler;
 use DI\ContainerBuilder;
 use Slim\ResponseEmitter;
 use Slim\Factory\AppFactory;
@@ -44,7 +45,7 @@ $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
 
 $responseFactory = $app->getResponseFactory();
-// $errorHandler
+$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 
 $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
@@ -54,7 +55,7 @@ $errorMiddleware = $app->addErrorMiddleware(
     (bool) $settings->get('logError'), 
     (bool) $settings->get('logErrorDetails')
 );
-// $errorMiddleware->setDefaultErrorHandler($errorHandler);
+$errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 $response = $app->handle($request);
 $responseEmitter = new ResponseEmitter();
