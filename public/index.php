@@ -11,10 +11,10 @@
 declare(strict_types = 1);
 
 use DI\ContainerBuilder;
+use Slim\ResponseEmitter;
 use Slim\Factory\AppFactory;
 use App\Support\Settings\SettingsInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
-use Slim\ResponseEmitter;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -39,6 +39,7 @@ $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);
 
 $settings = $c->get(SettingsInterface::class);
+
 $displayErrorDetails = $settings->get('displayErrorDetails');
 $logError = $settings->get('LogError');
 $logErrorDetails = $settings->get('LogErrorDetails');

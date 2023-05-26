@@ -5,6 +5,8 @@ declare(strict_types = 1);
 use Slim\App;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Slim\Routing\RouteCollectorProxy;
+use App\Http\Action\Auth\AuthUserAction;
 
 return function(App $app)
 {
@@ -16,8 +18,7 @@ return function(App $app)
         return $response;
     });
 
-    $app->get('/', function(Request $request, Response $response) {
-        $response->getBody()->write('Hello World!');
-        return $response;
+    $app->group('/', function(RouteCollectorProxy $auth) {
+        $auth->get('', AuthUserAction::class);
     });
 };
