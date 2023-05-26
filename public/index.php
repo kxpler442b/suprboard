@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * Prepare and execute the application.
+ * 
+ * @author Benjamin Moss <ben@yubit.social>
+ * 
+ * Date: 26/05/23
+ */
+
+declare(strict_types = 1);
+
+use DI\ContainerBuilder;
+use Slim\Factory\AppFactory;
+use App\Support\Settings\SettingsInterface;
+use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\ResponseEmitter;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$cb = new ContainerBuilder();
+
+$settings = require __DIR__ . '/../app/settings.php';
+$settings($cb);
+
+$dependencies = require __DIR__ . '/../app/dependencies.php';
+$dependencies($cb);
+
+$c = $cb->build();
+
+AppFactory::setContainer($c);
+$app = AppFactory::create();
+$callableResolver = $app->getCallableResolver();
+
+$middleware = require __DIR__ . '/../app/middleware.php';
+$middleware($app);
+
+$routes = require __DIR__ . '/../app/routes.php';
+$routes($app);
+
+$settings = $c->get(SettingsInterface::class);
+$displayErrorDetails = $settings->get('displayErrorDetails');
+$logError = $settings->get('LogError');
+$logErrorDetails = $settings->get('LogErrorDetails');
+
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
+
+$responseFactory = $app->getResponseFactory();
+// $errorHandler
+
+$app->addRoutingMiddleware();
+$app->addBodyParsingMiddleware();
+
+$errorMiddleware = $app->addErrorMiddleware((bool) $displayErrorDetails, (bool) $logError, (bool) $logErrorDetails);
+// $errorMiddleware->setDefaultErrorHandler($errorHandler);
+
+$response = $app->handle($request);
+$responseEmitter = new ResponseEmitter();
+$responseEmitter->emit($response);
