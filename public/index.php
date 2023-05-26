@@ -40,10 +40,6 @@ $routes($app);
 
 $settings = $c->get(SettingsInterface::class);
 
-$displayErrorDetails = $settings->get('displayErrorDetails');
-$logError = $settings->get('LogError');
-$logErrorDetails = $settings->get('LogErrorDetails');
-
 $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
 
@@ -53,7 +49,11 @@ $responseFactory = $app->getResponseFactory();
 $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 
-$errorMiddleware = $app->addErrorMiddleware((bool) $displayErrorDetails, (bool) $logError, (bool) $logErrorDetails);
+$errorMiddleware = $app->addErrorMiddleware(
+    (bool) $settings->get('displayErrorDetails'), 
+    (bool) $settings->get('logError'), 
+    (bool) $settings->get('logErrorDetails')
+);
 // $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 $response = $app->handle($request);

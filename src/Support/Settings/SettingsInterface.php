@@ -13,5 +13,5 @@ interface SettingsInterface
      * 
      * @return void
      */
-    public function get(string $key = '');
+    public function get(string $key, mixed $default = null);
 }

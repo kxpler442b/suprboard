@@ -21,31 +21,27 @@ return function(ContainerBuilder $cb)
     $cb->addDefinitions([
         EntityManager::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
-            $doctrineSettings = $settings->get('doctrine');
 
             Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
 
+            $entityDir = $settings->get('doctrine.entity_dir');
+
             $ormConfig = ORMSetup::createAttributeMetadataConfiguration(
-                $doctrineSettings['entity_dir'],
-                $doctrineSettings['dev_mode']
+                $entityDir,
+                $settings->get('doctrine.dev_mode')
             );
         
-            $conn = DriverManager::getConnection($doctrineSettings['connection']);
+            $conn = DriverManager::getConnection($settings->get('doctrine.connection'));
 
             return new EntityManager($conn, $ormConfig);
         },
         Twig::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
 
-            $twigSettings = $settings->get('twig');
-            $twigDebug = $twigSettings['debug'];
-            $twigCache = $twigSettings['cache'];
-            $twigAutoReload = $twigSettings['auto_reload'];
-
-            $twig = Twig::create($twigSettings['templates'], [
-                'debug' => $twigDebug,
-                'cache' => $twigCache,
-                'auto_reload' => $twigAutoReload
+            $twig = Twig::create($settings->get('twig.templates'), [
+                'debug' => $settings->get('twig.debug'),
+                'cache' => $settings->get('twig.cache'),
+                'auto_reload' => $settings->get('twig.auto_reload')
             ]);
 
             $twig->addExtension(new DebugExtension);
@@ -54,14 +50,13 @@ return function(ContainerBuilder $cb)
         },
         LoggerInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
-            $loggerSettings = $settings->get('logger');
 
-            $logger = new Logger($loggerSettings['name']);
+            $logger = new Logger($settings->get('logger.name'));
             
             $processor = new UidProcessor();
             $logger->pushProcessor($processor);
 
-            $handler = new StreamHandler($loggerSettings['path'], $loggerSettings['level']);
+            $handler = new StreamHandler($settings->get('logger.path'), $settings->get('logger.level'));
             $logger->pushHandler($handler);
 
             return $logger;

@@ -6,7 +6,7 @@ namespace App\Support\Settings;
 
 class Settings implements SettingsInterface
 {
-    private array $settings;
+    private readonly array $settings;
 
     public function __construct(array $settings)
     {
@@ -20,8 +20,23 @@ class Settings implements SettingsInterface
      * 
      * @return void
      */
-    public function get(string $key = '')
+    public function get(string $key, mixed $default = null)
     {
-        return (empty($key)) ? $this->settings : $this->settings[$key];
+        $path = explode('.', $key);
+        $value = $this->settings[array_shift($path)] ?? null;
+
+        if($value == null) {
+            return $default;
+        }
+
+        foreach($path as $key) {
+            if(!isset($value[$key])) {
+                return $default;
+            } else {
+                $value = $value[$key];
+            }
+        }
+
+        return $value;
     }
 }
