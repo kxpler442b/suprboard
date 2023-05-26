@@ -1,5 +1,7 @@
-# Environment Variables
+# Environment Variable Files
 .env
+app.env
+db.env
 
 # Cache and Logs
 /cache/*

@@ -10,8 +10,12 @@
     },
     "authors": [
         {
-            "name": "kxpler442b",
-            "email": "benmoss2002@fastmail.co.uk"
+            "name": "Benjamin Moss",
+            "email": "ben@yubit.social"
+        },
+        {
+            "name": "Louis Lonsdale",
+            "email": "louis@yubit.social"
         }
     ],
     "require": {
@@ -22,6 +26,7 @@
         "doctrine/orm": "^2.15",
         "doctrine/dbal": "^3.6",
         "doctrine/migrations": "^3.6",
+        "ramsey/uuid-doctrine": "^2.0",
         "vlucas/valitron": "^1.4",
         "vlucas/phpdotenv": "^5.5",
         "monolog/monolog": "^3.3"

@@ -37,7 +37,7 @@ return function(ContainerBuilder $cb)
                 ],
                 'logger' => [
                     'name' => 'suprboard',
-                    'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/suprboard.log',
+                    'path' => isset($_ENV['DOCKER']) ? 'php://stdout' : __DIR__ . '/../logs/suprboard.log',
                     'level' => Logger::DEBUG
                 ]
             ]);

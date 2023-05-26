@@ -7,6 +7,7 @@ use Slim\Views\Twig;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
 use Psr\Log\LoggerInterface;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Monolog\Handler\StreamHandler;
@@ -21,6 +22,8 @@ return function(ContainerBuilder $cb)
         EntityManager::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
             $doctrineSettings = $settings->get('doctrine');
+
+            Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
 
             $ormConfig = ORMSetup::createAttributeMetadataConfiguration(
                 $doctrineSettings['entity_dir'],
