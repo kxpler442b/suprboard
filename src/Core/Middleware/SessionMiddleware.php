@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Middleware;
+namespace App\Core\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;

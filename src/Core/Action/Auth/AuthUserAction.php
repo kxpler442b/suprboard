@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Action\Auth;
+namespace App\Core\Action\Auth;
 
 use GuzzleHttp\Psr7\Response;
-use App\Http\Action\Auth\AuthAction;
+use App\Core\Action\Auth\AuthAction;
 
 class AuthUserAction extends AuthAction
 {

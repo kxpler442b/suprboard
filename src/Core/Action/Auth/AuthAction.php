@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Action\Auth;
+namespace App\Core\Action\Auth;
 
-use App\Http\Action\Action;
+use App\Core\Action\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerInterface;
 

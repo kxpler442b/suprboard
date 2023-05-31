@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Action;
+namespace App\Core\Action;
 
 use Slim\Views\Twig;
 use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7\Response;
-use App\Http\Action\ActionPayload;
+use App\Core\Action\ActionPayload;
 use Psr\Container\ContainerInterface;
 
 abstract class Action

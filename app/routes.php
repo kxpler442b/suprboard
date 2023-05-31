@@ -6,7 +6,7 @@ use Slim\App;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Slim\Routing\RouteCollectorProxy;
-use App\Http\Action\Auth\AuthUserAction;
+use App\Core\Action\Auth\AuthUserAction;
 
 return function(App $app)
 {

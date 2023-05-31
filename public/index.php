@@ -10,10 +10,10 @@
 
 declare(strict_types = 1);
 
-use App\Http\Handler\HttpErrorHandler;
 use DI\ContainerBuilder;
 use Slim\ResponseEmitter;
 use Slim\Factory\AppFactory;
+use App\Core\Handler\HttpErrorHandler;
 use App\Support\Settings\SettingsInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
 

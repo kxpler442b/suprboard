@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 use Slim\App;
-use App\Http\Middleware\SessionMiddleware;
+use App\Core\Middleware\SessionMiddleware;
 
 return function(App $app)
 {

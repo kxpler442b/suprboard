@@ -2,20 +2,20 @@
 
 declare(strict_types = 1);
 
-namespace App\Http\Handler;
+namespace App\Core\Handler;
 
-use App\Http\Action\ActionError;
-use App\Http\Action\ActionPayload;
-use GuzzleHttp\Psr7\Response;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpException;
-use Slim\Exception\HttpForbiddenException;
-use Slim\Exception\HttpMethodNotAllowedException;
-use Slim\Exception\HttpNotFoundException;
-use Slim\Exception\HttpNotImplementedException;
-use Slim\Exception\HttpUnauthorizedException;
-use Slim\Handlers\ErrorHandler;
 use Throwable;
+use GuzzleHttp\Psr7\Response;
+use Slim\Handlers\ErrorHandler;
+use App\Core\Action\ActionError;
+use Slim\Exception\HttpException;
+use App\Core\Action\ActionPayload;
+use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpForbiddenException;
+use Slim\Exception\HttpBadRequestException;
+use Slim\Exception\HttpUnauthorizedException;
+use Slim\Exception\HttpNotImplementedException;
+use Slim\Exception\HttpMethodNotAllowedException;
 
 class HttpErrorHandler extends ErrorHandler
 {
