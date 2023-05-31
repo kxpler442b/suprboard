@@ -30,11 +30,6 @@
         "vlucas/valitron": "^1.4",
         "vlucas/phpdotenv": "^5.5",
         "monolog/monolog": "^3.3",
-        "mouf/nodejs-installer": "^1.0"
-    },
-    "config": {
-        "allow-plugins": {
-            "mouf/nodejs-installer": true
-        }
+        "ext-simplexml": "*"
     }
 }

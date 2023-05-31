@@ -6,7 +6,7 @@ namespace App\M2M;
 
 interface M2MInterface
 {
-    public function sendMessage(): void;
+    public function sendMessage(): bool;
     
     public function getMessages(int $count = 10): array;
 }
