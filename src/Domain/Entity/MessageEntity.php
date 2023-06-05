@@ -2,19 +2,27 @@
 
 declare(strict_types = 1);
 
-namespace App\Domain;
+namespace App\Domain\Entity;
 
-use App\Domain\Trait\EntityUuid;
 use DateTime;
-use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Id;
+use Ramsey\Uuid\UuidInterface;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\CustomIdGenerator;
+use App\Domain\Repository\MessageRepository;
 
-#[Entity()]
+#[Entity(repositoryClass: MessageRepository::class)]
 #[Table(name: 'messages')]
-class Message
+class MessageEntity
 {
-    use EntityUuid;
+    #[Id]
+    #[Column(type: 'uuid', unique: true)]
+    #[GeneratedValue(strategy: 'CUSTOM')]
+    #[CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $uuid;
 
     #[Column(type: 'boolean')]
     private bool $sw0;
@@ -39,6 +47,16 @@ class Message
 
     #[Column(type: 'datetime', updatable: false)]
     private DateTime $recieved;
+
+    /**
+     * Get the value of uuid
+     *
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
 
     /**
      * Get the value of sw0

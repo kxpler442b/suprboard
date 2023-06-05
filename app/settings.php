@@ -16,6 +16,14 @@ return function(ContainerBuilder $cb)
                 'displayErrorDetails' => true,
                 'logError' => false,
                 'logErrorDetails' => false,
+                'wsdl' => 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl',
+                'm2mconnect' => [
+                    'username' => $_ENV['M2M_USERNAME'],
+                    'password' => $_ENV['M2M_PASSWORD'],
+                    'msisdn' => $_ENV['M2M_MSISDN'],
+                    'deliveryReport' => false,
+                    'mtBearer' => $_ENV['M2M_MTBEARER']
+                ],
                 'doctrine' => [
                     'dev_mode' => true,
                     'cache_dir' => __DIR__ . '/../cache/doctrine',

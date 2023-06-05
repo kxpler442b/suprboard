@@ -2,8 +2,10 @@
 
 declare(strict_types = 1);
 
+use App\M2M\M2M;
 use Monolog\Logger;
 use Slim\Views\Twig;
+use App\M2M\SoapClient;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
 use Psr\Log\LoggerInterface;
@@ -12,6 +14,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Monolog\Handler\StreamHandler;
 use Twig\Extension\DebugExtension;
+use App\M2M\Interface\M2MInterface;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use App\Support\Settings\SettingsInterface;
@@ -19,6 +22,13 @@ use App\Support\Settings\SettingsInterface;
 return function(ContainerBuilder $cb)
 {
     $cb->addDefinitions([
+        M2MInterface::class => function(ContainerInterface $c) {
+            $settings = $c->get(SettingsInterface::class);
+
+            $soap = new SoapClient($settings->get('wsdl'));
+
+            return new M2M($soap, $settings->get('m2mconnect'));
+        },
         EntityManager::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
 

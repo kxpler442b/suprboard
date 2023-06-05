@@ -30,6 +30,8 @@
         "vlucas/valitron": "^1.4",
         "vlucas/phpdotenv": "^5.5",
         "monolog/monolog": "^3.3",
-        "ext-simplexml": "*"
+        "nesbot/carbon": "^2.67",
+        "ext-simplexml": "*",
+        "ext-soap": "*"
     }
 }
