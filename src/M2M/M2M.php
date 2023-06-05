@@ -14,6 +14,7 @@ class M2M implements M2MInterface
     protected string $msisdn;
     protected string $deliveryReport;
     protected string $mtBearer;
+    protected string $countryCode;
     protected SoapClientInterface $soap;
 
     public function __construct(SoapClientInterface $soap, array $settings)
@@ -23,6 +24,7 @@ class M2M implements M2MInterface
         $this->msisdn = $settings['msisdn'];
         $this->deliveryReport = $settings['deliveryReport'];
         $this->mtBearer = $settings['mtBearer'];
+        $this->countryCode = $settings['countryCode'];
         $this->soap = $soap;
     }
 

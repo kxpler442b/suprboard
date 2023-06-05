@@ -21,6 +21,7 @@ return function(ContainerBuilder $cb)
                     'username' => $_ENV['M2M_USERNAME'],
                     'password' => $_ENV['M2M_PASSWORD'],
                     'msisdn' => $_ENV['M2M_MSISDN'],
+                    'countryCode' => $_ENV['M2M_COUNTRYCODE'],
                     'deliveryReport' => false,
                     'mtBearer' => $_ENV['M2M_MTBEARER']
                 ],
