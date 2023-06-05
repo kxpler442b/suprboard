@@ -56,6 +56,10 @@ return function(ContainerBuilder $cb)
 
             $twig->addExtension(new DebugExtension);
 
+            $twig->getEnvironment()->addGlobal('globals', [
+                'stylesheet' => implode('', [$settings->get('base_url'), '/css/app.css'])
+            ]);
+
             return $twig;
         },
         LoggerInterface::class => function(ContainerInterface $c) {

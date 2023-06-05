@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Benjamin Moss">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="{{ globals.stylesheet }}" type="text/css" rel="stylesheet">
+
+    <title>{{ page.title }}</title>
+</head>
+<body class="h-screen grid grid-rows-6 grid-cols-12 bg-stone-100">
+    {% block body %} {% endblock %}
+</body>
+
+<script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/hyperscript.org@0.9.8"></script>
+
+</html>

@@ -16,6 +16,7 @@ return function(ContainerBuilder $cb)
                 'displayErrorDetails' => true,
                 'logError' => false,
                 'logErrorDetails' => false,
+                'base_url' => $_ENV['APP_BASE_URL'],
                 'wsdl' => 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl',
                 'm2mconnect' => [
                     'username' => $_ENV['M2M_USERNAME'],

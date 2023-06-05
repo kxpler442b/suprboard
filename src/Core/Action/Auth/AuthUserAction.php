@@ -13,6 +13,6 @@ class AuthUserAction extends AuthAction
     {
         $message = 'Hello World!';
 
-        return $this->respondWithView('index.html');
+        return $this->respondWithView('/auth/auth.html.twig');
     }
 }
