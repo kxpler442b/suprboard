@@ -27,6 +27,7 @@
         "doctrine/dbal": "^3.6",
         "doctrine/migrations": "^3.6",
         "ramsey/uuid-doctrine": "^2.0",
+        "symfony/cache": "^6.3",
         "vlucas/valitron": "^1.4",
         "vlucas/phpdotenv": "^5.5",
         "monolog/monolog": "^3.3",

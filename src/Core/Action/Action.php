@@ -9,10 +9,12 @@ use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7\Response;
 use App\Core\Action\ActionPayload;
+use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 
 abstract class Action
 {
+    protected EntityManager $em;
     protected Twig $twig;
     protected LoggerInterface $logger;
     protected Request $request;
@@ -21,6 +23,7 @@ abstract class Action
 
     public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {
+        $this->em = $c->get(EntityManager::class);
         $this->twig = $c->get(Twig::class);
         $this->logger = $logger;
     }

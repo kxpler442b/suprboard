@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Slim\Routing\RouteCollectorProxy;
 use App\Core\Action\Auth\AuthUserAction;
+use App\Core\Action\User\ShowUserAction;
 
 return function(App $app)
 {
@@ -20,5 +21,9 @@ return function(App $app)
 
     $app->group('/', function(RouteCollectorProxy $auth) {
         $auth->get('', AuthUserAction::class);
+    });
+
+    $app->group('/users', function(RouteCollectorProxy $users) {
+        $users->get('/show/{uuid}', ShowUserAction::class);
     });
 };

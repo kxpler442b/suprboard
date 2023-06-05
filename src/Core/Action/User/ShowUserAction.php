@@ -6,13 +6,18 @@ namespace App\Core\Action\User;
 
 use GuzzleHttp\Psr7\Response;
 use App\Core\Action\User\UserAction;
+use Doctrine\ORM\Exception\RepositoryException;
 
 class ShowUserAction extends UserAction
 {
     protected function action(): Response
     {
-        $message = 'Hello World!';
+        try {
+            // $user = $this->users->findByUuid($this->args['uuid']);
+        } catch(RepositoryException $e) {
 
-        return $this->respondWithView('index.html');
+        }
+
+        return $this->respondWithData(null, 501);
     }
 }

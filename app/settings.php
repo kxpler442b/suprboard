@@ -14,8 +14,8 @@ return function(ContainerBuilder $cb)
         SettingsInterface::class => function() {
             return new Settings([
                 'displayErrorDetails' => true,
-                'logError' => false,
-                'logErrorDetails' => false,
+                'logError' => true,
+                'logErrorDetails' => true,
                 'base_url' => $_ENV['APP_BASE_URL'],
                 'wsdl' => 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl',
                 'm2mconnect' => [
@@ -31,7 +31,7 @@ return function(ContainerBuilder $cb)
                     'cache_dir' => __DIR__ . '/../cache/doctrine',
                     'entity_dir' => [__DIR__ . '/../src/Domain'],
                     'connection' => [
-                        'driver' => 'pdo_mysql',
+                        'driver' => 'pdo_pgsql',
                         'host' => $_ENV['DB_HOST'],
                         'port' => $_ENV['DB_PORT'],
                         'dbname' => $_ENV['DB_NAME'],

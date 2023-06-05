@@ -6,7 +6,10 @@ networks:
 
 services:
   app:
-    image: php:8.1.19-fpm-alpine3.18
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: suprboard-app
     working_dir: /var/www
     command: php -S 0.0.0.0:8080 -t public
     env_file:
@@ -18,6 +21,7 @@ services:
 
   postgresql:
     image: docker.io/bitnami/postgresql:15
+    container_name: suprboard-db
     networks:
       - suprboard
     ports:

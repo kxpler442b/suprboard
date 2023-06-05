@@ -7,6 +7,7 @@ namespace App\Domain\Trait;
 use Doctrine\ORM\Mapping\Id;
 use Ramsey\Uuid\UuidInterface;
 use Doctrine\ORM\Mapping\Column;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\CustomIdGenerator;
 
