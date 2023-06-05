@@ -57,7 +57,8 @@ return function(ContainerBuilder $cb)
             $twig->addExtension(new DebugExtension);
 
             $twig->getEnvironment()->addGlobal('globals', [
-                'stylesheet' => implode('', [$settings->get('base_url'), '/css/app.css'])
+                'stylesheet' => implode('', [$settings->get('base_url'), '/css/app.css']),
+                'images' => implode('', [$settings->get('base_url'), '/img'])
             ]);
 
             return $twig;
