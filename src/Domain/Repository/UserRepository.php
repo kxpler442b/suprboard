@@ -10,8 +10,13 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
 {
-    public function findByUuid(UuidInterface|string $uuid): UserEntity
+    public function findByUuid(UuidInterface|string $uuid): ?UserEntity
     {
         return $this->findOneBy(['uuid' => $uuid]);
+    }
+
+    public function findByEmail(string $email): ?UserEntity
+    {
+        return $this->findOneBy(['email' => $email]);
     }
 }

@@ -20,6 +20,9 @@ class UserEntity
     #[Column(type: 'string', length: 320, unique: true)]
     protected string $email;
 
+    #[Column(type: 'string')]
+    protected string $password;
+
     #[Column(type: 'string', length: 64)]
     protected string $firstName;
 
@@ -53,6 +56,28 @@ class UserEntity
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     * 
+     * @return string
+     */ 
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return self
+     */ 
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }

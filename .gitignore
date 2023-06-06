@@ -1,4 +1,5 @@
 # Environment Variable Files
+/bin/.env
 app.env
 db.env
 
