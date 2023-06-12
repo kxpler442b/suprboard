@@ -1,3 +1,6 @@
+@import url('cabinet-grotesk.css');
+@import url('satoshi.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
