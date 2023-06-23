@@ -4,20 +4,21 @@ declare(strict_types = 1);
 
 namespace App\M2M;
 
+use App\M2M\SoapClient;
 use App\M2M\Interface\M2MInterface;
-use App\M2M\Interface\SoapClientInterface;
 
 class M2M implements M2MInterface
 {
     protected string $username;
     protected string $password;
     protected string $msisdn;
-    protected string $deliveryReport;
+    protected bool $deliveryReport;
     protected string $mtBearer;
     protected string $countryCode;
-    protected SoapClientInterface $soap;
+    protected $response;
+    protected SoapClient $soap;
 
-    public function __construct(SoapClientInterface $soap, array $settings)
+    public function __construct(SoapClient $soap, array $settings)
     {
         $this->username = $settings['username'];
         $this->password = $settings['password'];
@@ -25,7 +26,13 @@ class M2M implements M2MInterface
         $this->deliveryReport = $settings['deliveryReport'];
         $this->mtBearer = $settings['mtBearer'];
         $this->countryCode = $settings['countryCode'];
+        $this->response = null;
         $this->soap = $soap;
+    }
+
+    public function getResponse(): mixed
+    {
+        return $this->response;
     }
 
     public function sendMessage(string $message)
@@ -65,7 +72,12 @@ class M2M implements M2MInterface
 
     public function peekMessages(int $count = 10)
     {
-        
+        $this->response = $this->soap->__soapCall('peekMessages', [
+            'username' => $this->username,
+            'password' => $this->password,
+            'count' => $count,
+            'deviceMSISDN' => $this->msisdn
+        ]);
     }
 
     public function flushMessages()

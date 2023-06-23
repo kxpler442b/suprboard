@@ -7,5 +7,7 @@ use App\Core\Middleware\SessionMiddleware;
 
 return function(App $app)
 {
-    $app->add(SessionMiddleware::class);
+    $c = $app->getContainer();
+
+    $app->add(SessionMiddleware::create($c));
 };

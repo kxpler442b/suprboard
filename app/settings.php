@@ -45,6 +45,11 @@ return function(ContainerBuilder $cb)
                     'auto_reload' => true,
                     'templates' => __DIR__ . '/../templates'
                 ],
+                'session' => [
+                    'secure' => false,
+                    'httponly' => true,
+                    'samesite' => 'lax'
+                ],
                 'logger' => [
                     'name' => 'suprboard',
                     'path' => isset($_ENV['DOCKER']) ? 'php://stdout' : __DIR__ . '/../logs/suprboard.log',

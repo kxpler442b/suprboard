@@ -11,7 +11,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\CustomIdGenerator;
 
-trait EntityUuidTrait
+trait HasUuidTrait
 {
     #[Id]
     #[Column(type: 'uuid', unique: true)]

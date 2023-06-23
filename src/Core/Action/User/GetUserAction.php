@@ -8,16 +8,16 @@ use GuzzleHttp\Psr7\Response;
 use App\Core\Action\User\UserAction;
 use Doctrine\ORM\Exception\RepositoryException;
 
-class ShowUserAction extends UserAction
+class GetUserAction extends UserAction
 {
     protected function action(): Response
     {
         try {
-            // $user = $this->users->findByUuid($this->args['uuid']);
+            $user = $this->users->findByUuid($this->args['uuid']);
         } catch(RepositoryException $e) {
 
         }
 
-        return $this->respondWithData(null, 501);
+        return $this->respondWithData($user, 501);
     }
 }

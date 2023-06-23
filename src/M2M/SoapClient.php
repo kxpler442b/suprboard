@@ -7,12 +7,12 @@ namespace App\M2M;
 use SoapClient as GlobalSoapClient;
 use App\M2M\Interface\SoapClientInterface;
 
-class SoapClient extends GlobalSoapClient implements SoapClientInterface
+class SoapClient extends GlobalSoapClient
 {
     protected string $wsdl;
     protected array $clientOptions;
 
-    public function __construct(string $wsdl = '', string $location = '', string $soapVersion = SOAP_1_2, bool $trace = true, bool $exceptions = false)
+    public function __construct(string $wsdl = '', string $location = '', string $soapVersion = 'SOAP_1_2', bool $trace = true, bool $exceptions = false)
     {
         $this->wsdl = $wsdl;
         $clientOptions = [

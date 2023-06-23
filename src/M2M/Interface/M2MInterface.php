@@ -6,6 +6,8 @@ namespace App\M2M\Interface;
 
 interface M2MInterface
 {
+    public function getResponse(): mixed;
+    
     public function sendMessage(string $message);
     
     public function sendMessageWithValidityPeriod(string $message, string $binarySmsDcs = 'F4', string $validityDaysHoursMinutes = '000200');

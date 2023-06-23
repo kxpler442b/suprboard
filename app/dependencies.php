@@ -3,20 +3,24 @@
 declare(strict_types = 1);
 
 use App\M2M\M2M;
+use App\Auth\Auth;
 use Monolog\Logger;
 use Slim\Views\Twig;
 use App\M2M\SoapClient;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
+use App\Auth\AuthInterface;
 use Psr\Log\LoggerInterface;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
+use App\Support\Session\Session;
 use Doctrine\DBAL\DriverManager;
 use Monolog\Handler\StreamHandler;
 use Twig\Extension\DebugExtension;
 use App\M2M\Interface\M2MInterface;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
+use App\Support\Session\SessionInterface;
 use App\Support\Settings\SettingsInterface;
 
 return function(ContainerBuilder $cb)
@@ -28,6 +32,14 @@ return function(ContainerBuilder $cb)
             $soap = new SoapClient($settings->get('wsdl'));
 
             return new M2M($soap, $settings->get('m2mconnect'));
+        },
+        AuthInterface::class => function(ContainerInterface $c) {
+            $settings = $c->get(SettingsInterface::class);
+            $em = $c->get(EntityManager::class);
+            $session = $c->get(SessionInterface::class);
+            $logger = $c->get(LoggerInterface::class);
+
+            return new Auth($em, $session, $logger, $settings->get('base_url'));
         },
         EntityManager::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
@@ -63,6 +75,12 @@ return function(ContainerBuilder $cb)
             ]);
 
             return $twig;
+        },
+        SessionInterface::class => function(ContainerInterface $c) {
+            $settings = $c->get(SettingsInterface::class);
+            $params = $settings->get('session');
+
+            return new Session($params);
         },
         LoggerInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);

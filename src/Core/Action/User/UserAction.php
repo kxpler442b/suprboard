@@ -17,6 +17,6 @@ abstract class UserAction extends Action
     {
         parent::__construct($c, $logger);
 
-        $this->users = $this->em->getRepository('App\Domain\Entity\UserEntity');
+        $this->users = $this->em->getRepository('App\Domain\Entity\User');
     }
 }
