@@ -1,3 +1,5 @@
+/run-tailwind.sh
+
 # Environment Variable Files
 /bin/.env
 app.env
