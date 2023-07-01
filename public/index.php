@@ -10,6 +10,7 @@
 
 declare(strict_types = 1);
 
+use Dotenv\Dotenv;
 use DI\ContainerBuilder;
 use Slim\ResponseEmitter;
 use Slim\Factory\AppFactory;
@@ -18,6 +19,9 @@ use App\Support\Settings\SettingsInterface;
 use Slim\Factory\ServerRequestCreatorFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
+
+$env = Dotenv::createImmutable(__DIR__, '../app.env');
+$env->load();
 
 $cb = new ContainerBuilder();
 

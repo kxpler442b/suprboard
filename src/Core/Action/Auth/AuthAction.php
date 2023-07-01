@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 
 abstract class AuthAction extends Action
 {
-    private readonly AuthInterface $auth;
+    protected AuthInterface $auth;
 
     public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {

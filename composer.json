@@ -23,16 +23,17 @@
         "slim/twig-view": "^3.3",
         "php-di/slim-bridge": "^3.3",
         "guzzlehttp/psr7": "^2",
-        "doctrine/orm": "^2.15",
-        "doctrine/dbal": "^3.6",
-        "doctrine/migrations": "^3.6",
+        "doctrine/orm": "2.*",
+        "doctrine/dbal": "3.*",
+        "doctrine/migrations": "3.*",
         "ramsey/uuid-doctrine": "^2.0",
-        "symfony/cache": "^6.3",
+        "symfony/cache": "6.*",
         "vlucas/valitron": "^1.4",
         "vlucas/phpdotenv": "^5.5",
-        "monolog/monolog": "^3.3",
+        "monolog/monolog": "2.*",
         "nesbot/carbon": "^2.67",
         "ext-simplexml": "*",
-        "ext-soap": "*"
+        "ext-soap": "*",
+        "league/oauth2-client": "^2.7"
     }
 }

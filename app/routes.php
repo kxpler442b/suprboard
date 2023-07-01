@@ -20,9 +20,7 @@ return function(App $app)
         return $response;
     });
 
-    $app->group('/', function(RouteCollectorProxy $auth) {
-        $auth->get('', AuthUserAction::class);
-    });
+    $app->group('/', require_once __DIR__ . '/routes/auth.php');
 
     $app->group('/dashboard', require_once __DIR__ . '/routes/dashboard.php');
 

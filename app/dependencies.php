@@ -18,10 +18,13 @@ use Doctrine\DBAL\DriverManager;
 use Monolog\Handler\StreamHandler;
 use Twig\Extension\DebugExtension;
 use App\M2M\Interface\M2MInterface;
+use App\OAuth\OAuthProvider;
+use App\OAuth\OAuthProviderInterface;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use App\Support\Session\SessionInterface;
 use App\Support\Settings\SettingsInterface;
+use League\OAuth2\Client\Provider\GenericProvider;
 
 return function(ContainerBuilder $cb)
 {
@@ -32,14 +35,6 @@ return function(ContainerBuilder $cb)
             $soap = new SoapClient($settings->get('wsdl'));
 
             return new M2M($soap, $settings->get('m2mconnect'));
-        },
-        AuthInterface::class => function(ContainerInterface $c) {
-            $settings = $c->get(SettingsInterface::class);
-            $em = $c->get(EntityManager::class);
-            $session = $c->get(SessionInterface::class);
-            $logger = $c->get(LoggerInterface::class);
-
-            return new Auth($em, $session, $logger, $settings->get('base_url'));
         },
         EntityManager::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
@@ -75,6 +70,16 @@ return function(ContainerBuilder $cb)
             ]);
 
             return $twig;
+        },
+        OAuthProviderInterface::class => function() {
+            return new OAuthProvider([
+                'clientId' => $_ENV['OAUTH_CLIENT_ID'],
+                'clientSecret' => $_ENV['OAUTH_CLIENT_SECRET'],
+                'redirectUri' => $_ENV['OAUTH_REDIRECT_URI'],
+                'urlAuthorize' => $_ENV['OAUTH_URL_AUTHORIZE'],
+                'urlAccessToken' => $_ENV['OAUTH_URL_TOKEN'],
+                'urlResourceOwnerDetails' => $_ENV['OAUTH_URL_RESOURCE']
+            ]);
         },
         SessionInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
