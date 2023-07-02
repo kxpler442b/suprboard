@@ -34,6 +34,7 @@
         "nesbot/carbon": "^2.67",
         "ext-simplexml": "*",
         "ext-soap": "*",
-        "league/oauth2-client": "^2.7"
+        "league/oauth2-client": "^2.7",
+        "odan/session": "^6.1"
     }
 }

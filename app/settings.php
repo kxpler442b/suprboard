@@ -46,9 +46,9 @@ return function(ContainerBuilder $cb)
                     'templates' => __DIR__ . '/../templates'
                 ],
                 'session' => [
-                    'secure' => false,
-                    'httponly' => true,
-                    'samesite' => 'lax'
+                    'name' => 'suprboard',
+                    'cookie_samesite' => 'Lax',
+                    'cookie_secure' => false
                 ],
                 'logger' => [
                     'name' => 'suprboard',

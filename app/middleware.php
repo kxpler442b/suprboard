@@ -3,11 +3,11 @@
 declare(strict_types = 1);
 
 use Slim\App;
-use App\Core\Middleware\SessionMiddleware;
+use Odan\Session\Middleware\SessionStartMiddleware;
 
 return function(App $app)
 {
     $c = $app->getContainer();
 
-    $app->add(SessionMiddleware::create($c));
+    $app->add(SessionStartMiddleware::class);
 };

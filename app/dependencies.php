@@ -3,28 +3,24 @@
 declare(strict_types = 1);
 
 use App\M2M\M2M;
-use App\Auth\Auth;
 use Monolog\Logger;
 use Slim\Views\Twig;
 use App\M2M\SoapClient;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
-use App\Auth\AuthInterface;
+use Odan\Session\PhpSession;
 use Psr\Log\LoggerInterface;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
-use App\Support\Session\Session;
 use Doctrine\DBAL\DriverManager;
 use Monolog\Handler\StreamHandler;
 use Twig\Extension\DebugExtension;
 use App\M2M\Interface\M2MInterface;
-use App\OAuth\OAuthProvider;
-use App\OAuth\OAuthProviderInterface;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
-use App\Support\Session\SessionInterface;
 use App\Support\Settings\SettingsInterface;
-use League\OAuth2\Client\Provider\GenericProvider;
+use Odan\Session\SessionInterface;
+use Odan\Session\SessionManagerInterface;
 
 return function(ContainerBuilder $cb)
 {
@@ -71,21 +67,16 @@ return function(ContainerBuilder $cb)
 
             return $twig;
         },
-        OAuthProviderInterface::class => function() {
-            return new OAuthProvider([
-                'clientId' => $_ENV['OAUTH_CLIENT_ID'],
-                'clientSecret' => $_ENV['OAUTH_CLIENT_SECRET'],
-                'redirectUri' => $_ENV['OAUTH_REDIRECT_URI'],
-                'urlAuthorize' => $_ENV['OAUTH_URL_AUTHORIZE'],
-                'urlAccessToken' => $_ENV['OAUTH_URL_TOKEN'],
-                'urlResourceOwnerDetails' => $_ENV['OAUTH_URL_RESOURCE']
-            ]);
-        },
-        SessionInterface::class => function(ContainerInterface $c) {
-            $settings = $c->get(SettingsInterface::class);
-            $params = $settings->get('session');
+        SessionInterface::class => function(ContainerInterface $c)
+        {
+            $s = $c->get(SettingsInterface::class);
+            $config = $s->get('session');
 
-            return new Session($params);
+            return new PhpSession($config);
+        },
+        SessionManagerInterface::class => function(ContainerInterface $c)
+        {
+            $c->get(SessionInterface::class);
         },
         LoggerInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
