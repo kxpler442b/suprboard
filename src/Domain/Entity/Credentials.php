@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use App\Domain\Trait\HasUuidTrait;
+use App\Domain\Repository\CredentialsRepository;
+use Doctrine\ORM\Mapping\ManyToOne;
 
-#[Entity()]
+#[Entity(repositoryClass: CredentialsRepository::class)]
 #[Table(name: 'credentials')]
 class Credentials implements CredentialsInterface
 {
@@ -30,6 +32,9 @@ class Credentials implements CredentialsInterface
 
     #[Column(type: 'string')]
     private string $bearer;
+
+    #[ManyToOne(inversedBy: 'credentials', targetEntity: User::class, cascade: ['persist'])]
+    private User $user;
 
     #[Column(type: 'datetime', updatable: false)]
     private DateTime $created;
@@ -97,7 +102,19 @@ class Credentials implements CredentialsInterface
         return $this->bearer;
     }
 
-    public function setCreated(DateTime $created): CredentialsInterface
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setCreated(DateTime $created): self
     {
         $this->created = $created;
 

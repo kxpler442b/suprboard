@@ -6,6 +6,7 @@ namespace App\Domain\Entity;
 
 use DateTime;
 use Ramsey\Uuid\Rfc4122\UuidInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface UserInterface
 {
@@ -30,6 +31,8 @@ interface UserInterface
     public function setIsAdmin(bool $is_admin): self;
 
     public function getIsAdmin(): bool;
+
+    public function getCredentials(): Collection;
 
     public function setCreated(DateTime $created): self;
 

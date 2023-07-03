@@ -17,7 +17,7 @@ trait HasUuidTrait
     #[Column(type: 'uuid', unique: true)]
     #[GeneratedValue(strategy: 'CUSTOM')]
     #[CustomIdGenerator(class: UuidGenerator::class)]
-    private UuidInterface $identifier;
+    private UuidInterface $id;
 
     /**
      * Get the entity identifier.

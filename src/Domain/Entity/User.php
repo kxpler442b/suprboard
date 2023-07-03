@@ -10,7 +10,10 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use App\Domain\Trait\HasUuidTrait;
+use Doctrine\ORM\Mapping\OneToMany;
 use App\Domain\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'users')]
@@ -33,11 +36,19 @@ class User
     #[Column(type: 'boolean')]
     private bool $is_admin;
 
+    #[OneToMany(mappedBy: 'user', targetEntity: Credentials::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $credentials;
+
     #[Column(type: 'datetime_immutable', updatable: false)]
     private DateTimeImmutable $created;
 
     #[Column(type: 'datetime')]
     private DateTime $updated;
+
+    public function __construct()
+    {
+        $this->credentials = new ArrayCollection();
+    }
 
     public function setEmail(string $email): void
     {
@@ -87,6 +98,11 @@ class User
     public function getIsAdmin(): bool
     {
         return $this->is_admin;
+    }
+
+    public function getCredentials(): Collection
+    {
+        return $this->credentials;
     }
 
     public function setCreated(DateTimeImmutable $created): void

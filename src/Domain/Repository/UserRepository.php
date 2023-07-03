@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Domain\Repository;
 
+use App\Domain\Entity\Credentials;
 use App\Domain\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use App\Domain\Repository\UserRepositoryInterface;
@@ -27,6 +28,11 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
     {
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function addCredentialsToUser(User $user, Credentials $credentials): void
+    {
+        $user->getCredentials()->add($credentials);
     }
 
     public function findByIdentifier(string $identifier): ?User

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Domain\Repository;
 
 use DateTime;
+use App\Domain\Entity\User;
 use App\Domain\Entity\Credentials;
 use Doctrine\ORM\EntityRepository;
 
@@ -20,7 +21,7 @@ class CredentialsRepository extends EntityRepository implements CredentialsRepos
      * 
      * @return Credentials
      */
-    public function getNewCredentials(string $username, string $password, string $msisdn, string $bearer): Credentials
+    public function getNewCredentials(string $username, string $password, string $msisdn, string $bearer, User $user): Credentials
     {
         $credentials = new Credentials();
 
@@ -30,6 +31,7 @@ class CredentialsRepository extends EntityRepository implements CredentialsRepos
         $credentials->setPassword($password);
         $credentials->setMsisdn($msisdn);
         $credentials->setBearer($bearer);
+        $credentials->setUser($user);
         $credentials->setCreated($datetime);
         $credentials->setUpdated($datetime);
 

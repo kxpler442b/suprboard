@@ -24,6 +24,10 @@ interface CredentialsInterface
 
     public function getBearer(): string;
 
+    public function setUser(User $user);
+
+    public function getUser(): User;
+
     public function setCreated(DateTime $created): self;
 
     public function getCreated(): DateTime;
