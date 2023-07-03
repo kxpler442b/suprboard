@@ -8,19 +8,24 @@ use Slim\Views\Twig;
 use App\M2M\SoapClient;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
+use App\Domain\Entity\User;
 use Odan\Session\PhpSession;
 use Psr\Log\LoggerInterface;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
+use App\Support\Bouncer\Bouncer;
 use Doctrine\DBAL\DriverManager;
+use App\Support\Settings\Settings;
 use Monolog\Handler\StreamHandler;
+use Odan\Session\SessionInterface;
 use Twig\Extension\DebugExtension;
 use App\M2M\Interface\M2MInterface;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
-use App\Support\Settings\SettingsInterface;
-use Odan\Session\SessionInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Support\Bouncer\BouncerInterface;
 use Odan\Session\SessionManagerInterface;
+use App\Support\Settings\SettingsInterface;
 
 return function(ContainerBuilder $cb)
 {
@@ -32,7 +37,16 @@ return function(ContainerBuilder $cb)
 
             return new M2M($soap, $settings->get('m2mconnect'));
         },
-        EntityManager::class => function(ContainerInterface $c) {
+        BouncerInterface::class => function(ContainerInterface $c) {
+            $em = $c->get(EntityManagerInterface::class);
+
+            return new Bouncer(
+                $c->get(SessionInterface::class),
+                $em->getRepository(User::class),
+                $em
+            );
+        },
+        EntityManagerInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
 
             Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
@@ -67,16 +81,16 @@ return function(ContainerBuilder $cb)
 
             return $twig;
         },
+        SessionManagerInterface::class => function(ContainerInterface $c)
+        {
+            return $c->get(SessionInterface::class);
+        },
         SessionInterface::class => function(ContainerInterface $c)
         {
             $s = $c->get(SettingsInterface::class);
             $config = $s->get('session');
 
             return new PhpSession($config);
-        },
-        SessionManagerInterface::class => function(ContainerInterface $c)
-        {
-            $c->get(SessionInterface::class);
         },
         LoggerInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);

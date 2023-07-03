@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Action;
+namespace App\Http\Action;
 
 use Slim\Views\Twig;
 use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7\Response;
-use App\Core\Action\ActionPayload;
+use App\Http\Action\ActionPayload;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 

@@ -5,7 +5,9 @@ declare(strict_types = 1);
 namespace App\Domain\Repository;
 
 use App\Domain\Entity\User;
+use App\Domain\Entity\UserInterface;
 use Doctrine\ORM\EntityRepository;
+use Ramsey\Uuid\Rfc4122\UuidInterface;
 
 class UserRepository extends EntityRepository implements UserRepositoryInterface
 {
@@ -26,6 +28,11 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
     {
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function findByIdentifier(string $identifier): ?User
+    {
+        return $this->findOneBy(['identifier' => $identifier]);
     }
 
     public function findByEmail(string $email): ?User

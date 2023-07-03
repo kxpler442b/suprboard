@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Action\Dashboard;
+namespace App\Http\Action\Dashboard;
 
-use App\Core\Action\Action;
+use App\Http\Action\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerInterface;
 

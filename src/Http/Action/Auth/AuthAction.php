@@ -2,20 +2,20 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Action\Auth;
+namespace App\Http\Action\Auth;
 
-use App\Auth\AuthInterface;
-use App\Core\Action\Action;
+use App\Http\Action\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Container\ContainerInterface;
+use App\Support\Bouncer\BouncerInterface;
 
 abstract class AuthAction extends Action
 {
-    protected AuthInterface $auth;
+    protected BouncerInterface $bouncer;
 
     public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {
-        $this->auth = $c->get(AuthInterface::class);
+        $this->bouncer = $c->get(BouncerInterface::class);
         
         parent::__construct($c, $logger);
     }

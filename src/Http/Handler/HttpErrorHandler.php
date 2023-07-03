@@ -2,14 +2,14 @@
 
 declare(strict_types = 1);
 
-namespace App\Core\Handler;
+namespace App\Http\Handler;
 
 use Throwable;
 use GuzzleHttp\Psr7\Response;
 use Slim\Handlers\ErrorHandler;
-use App\Core\Action\ActionError;
+use App\Http\Action\ActionError;
 use Slim\Exception\HttpException;
-use App\Core\Action\ActionPayload;
+use App\Http\Action\ActionPayload;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Exception\HttpBadRequestException;

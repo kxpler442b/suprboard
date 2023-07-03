@@ -17,15 +17,15 @@ trait HasUuidTrait
     #[Column(type: 'uuid', unique: true)]
     #[GeneratedValue(strategy: 'CUSTOM')]
     #[CustomIdGenerator(class: UuidGenerator::class)]
-    private UuidInterface|string $uuid;
+    private UuidInterface $identifier;
 
     /**
-     * Get the value of uuid
+     * Get the entity identifier.
      *
-     * @return string
+     * @return UuidInterface
      */
-    public function getUuid(): string
+    public function getIdentifier(): UuidInterface
     {
-        return $this->uuid;
+        return $this->identifier;
     }
 }
