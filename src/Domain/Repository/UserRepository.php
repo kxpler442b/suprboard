@@ -5,9 +5,8 @@ declare(strict_types = 1);
 namespace App\Domain\Repository;
 
 use App\Domain\Entity\User;
-use App\Domain\Entity\UserInterface;
 use Doctrine\ORM\EntityRepository;
-use Ramsey\Uuid\Rfc4122\UuidInterface;
+use App\Domain\Repository\UserRepositoryInterface;
 
 class UserRepository extends EntityRepository implements UserRepositoryInterface
 {

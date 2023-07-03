@@ -35,6 +35,7 @@
         "ext-simplexml": "*",
         "ext-soap": "*",
         "league/oauth2-client": "^2.7",
-        "odan/session": "^6.1"
+        "odan/session": "^6.1",
+        "symfony/password-hasher": "^6.3"
     }
 }

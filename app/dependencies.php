@@ -2,6 +2,7 @@
 
 declare(strict_types = 1);
 
+use App\Domain\Entity\CredentialsInterface;
 use App\M2M\M2M;
 use Monolog\Logger;
 use Slim\Views\Twig;
@@ -9,6 +10,7 @@ use App\M2M\SoapClient;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
 use App\Domain\Entity\User;
+use App\Domain\Entity\UserInterface;
 use Odan\Session\PhpSession;
 use Psr\Log\LoggerInterface;
 use Doctrine\DBAL\Types\Type;
@@ -26,6 +28,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Support\Bouncer\BouncerInterface;
 use Odan\Session\SessionManagerInterface;
 use App\Support\Settings\SettingsInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 return function(ContainerBuilder $cb)
 {
@@ -61,6 +66,18 @@ return function(ContainerBuilder $cb)
             $conn = DriverManager::getConnection($settings->get('doctrine.connection'));
 
             return new EntityManager($conn, $ormConfig);
+        },
+        PasswordHasherFactoryInterface::class => function() {
+            return new PasswordHasherFactory([
+                UserInterface::class => [
+                    'algorithm' => 'auto',
+                    'cost' => 15
+                ],
+                CredentialsInterface::class => [
+                    'algorithm' => 'auto',
+                    'cost' => 15
+                ]
+            ]);
         },
         Twig::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
