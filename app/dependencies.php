@@ -26,6 +26,8 @@ use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Support\Bouncer\BouncerInterface;
+use App\Support\Bouncer\PasswordManager;
+use App\Support\Bouncer\PasswordManagerInterface;
 use Odan\Session\SessionManagerInterface;
 use App\Support\Settings\SettingsInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
@@ -48,7 +50,8 @@ return function(ContainerBuilder $cb)
             return new Bouncer(
                 $c->get(SessionInterface::class),
                 $em->getRepository(User::class),
-                $em
+                $em,
+                $c->get(PasswordManagerInterface::class)
             );
         },
         EntityManagerInterface::class => function(ContainerInterface $c) {
@@ -67,17 +70,10 @@ return function(ContainerBuilder $cb)
 
             return new EntityManager($conn, $ormConfig);
         },
-        PasswordHasherFactoryInterface::class => function() {
-            return new PasswordHasherFactory([
-                UserInterface::class => [
-                    'algorithm' => 'auto',
-                    'cost' => 15
-                ],
-                CredentialsInterface::class => [
-                    'algorithm' => 'auto',
-                    'cost' => 15
-                ]
-            ]);
+        PasswordManagerInterface::class => function(ContainerInterface $c) {
+            $s = $c->get(SettingsInterface::class);
+
+            return new PasswordManager($s->get('passwordManager'));
         },
         Twig::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
@@ -91,9 +87,7 @@ return function(ContainerBuilder $cb)
             $twig->addExtension(new DebugExtension);
 
             $twig->getEnvironment()->addGlobal('globals', [
-                'base_url' => $settings->get('base_url'),
-                'stylesheet' => implode('', [$settings->get('base_url'), '/css/app.css']),
-                'images' => implode('', [$settings->get('base_url'), '/img'])
+                'base_url' => $settings->get('base_url')
             ]);
 
             return $twig;

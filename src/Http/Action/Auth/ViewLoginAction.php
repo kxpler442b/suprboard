@@ -10,6 +10,12 @@ class ViewLoginAction extends AuthAction
 {
     public function action(): Response
     {
-        return $this->respondWithView('/bouncer/bouncer.twig');
+        $data = [
+            'page' => [
+                'title' => 'Sign in - Suprboard'
+            ]
+        ];
+        
+        return $this->respondWithView('/auth/auth.twig', $data);
     }
 }

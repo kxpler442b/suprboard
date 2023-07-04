@@ -4,8 +4,9 @@ declare(strict_types = 1);
 
 namespace App\Domain\Repository;
 
-use App\Domain\Entity\Credentials;
+use DateTime;
 use App\Domain\Entity\User;
+use App\Domain\Entity\Credentials;
 use Doctrine\ORM\EntityRepository;
 use App\Domain\Repository\UserRepositoryInterface;
 
@@ -15,16 +16,20 @@ class UserRepository extends EntityRepository implements UserRepositoryInterface
     {
         $user = new User();
 
+        $dt = new DateTime('now');
+
         $user->setEmail($email);
         $user->setPassword($password);
         $user->setGivenName($given_name);
         $user->setFamilyName($family_name);
         $user->setIsAdmin($is_admin);
+        $user->setCreated($dt);
+        $user->setUpdated($dt);
 
         return $user;
     }
 
-    public function persistNewUser(User $user): void
+    public function persistUser(User $user): void
     {
         $this->_em->persist($user);
         $this->_em->flush();

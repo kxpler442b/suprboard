@@ -11,12 +11,14 @@ use App\Domain\Entity\UserInterface;
 use Ramsey\Uuid\Rfc4122\UuidInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Domain\Repository\UserRepositoryInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class Bouncer implements BouncerInterface
 {
     protected SessionInterface $session;
     protected UserRepositoryInterface $users;
     protected EntityManagerInterface $em;
+    protected PasswordManagerInterface $passwordManager;
 
     private ?UserInterface $user = null;
     private ?UuidInterface $authId = null;
@@ -28,11 +30,12 @@ class Bouncer implements BouncerInterface
      * @param UserRepositoryInterface $users
      * @param EntityManagerInterface $em
      */
-    public function __construct(SessionInterface $session, UserRepositoryInterface $users, EntityManagerInterface $em)
+    public function __construct(SessionInterface $session, UserRepositoryInterface $users, EntityManagerInterface $em, PasswordManagerInterface $passwordManager)
     {
         $this->session = $session;
         $this->users = $users;
         $this->em = $em;
+        $this->passwordManager = $passwordManager;
     }
 
     /**
@@ -55,12 +58,7 @@ class Bouncer implements BouncerInterface
             return AuthStatus::AUTH_FAILED;
         }
 
-        /**
-         * Checks if an existing authorized session exists and removes it.
-         */
-        if($this->session->has($this->authId->toString())) {
-            $this->session->delete($this->authId->toString());
-        }
+        $this->revoke();
 
         # Generates a new authorization UUID;
         $this->authId = Uuid::uuid4();
@@ -97,8 +95,37 @@ class Bouncer implements BouncerInterface
         return true;
     }
 
+    /**
+     * Removes the authorized session.
+     *
+     * @return void
+     */
     public function revoke(): void
     {
-        
+        if(!$this->session->has($this->authId->toString())) {
+            $this->session->delete($this->authId->toString());
+        }
+    }
+
+    /**
+     * Registers a new user account and stores it in the database.
+     *
+     * @param array $credentials
+     * 
+     * @return void
+     */
+    public function registerNewUser(array $credentials): void
+    {
+        $hashedPassword = $this->passwordManager->hashPassword($credentials['password']);
+
+        $user = $this->users->getNewUser(
+            $credentials['email'],
+            $credentials['password'],
+            $credentials['given_name'],
+            $credentials['family_name'],
+            $credentials['is_admin']
+        );
+
+        $this->users->persistUser($user);
     }
 }

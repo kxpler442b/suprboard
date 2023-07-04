@@ -13,4 +13,6 @@ interface BouncerInterface
     public function verify(): bool;
 
     public function revoke(): void;
+
+    public function registerNewUser(array $credentials): void;
 }

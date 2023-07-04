@@ -9,21 +9,23 @@ use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7\Response;
 use App\Http\Action\ActionPayload;
-use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Http\Message\StreamInterface;
 
 abstract class Action
 {
-    protected EntityManager $em;
+    protected EntityManagerInterface $em;
     protected Twig $twig;
     protected LoggerInterface $logger;
     protected Request $request;
     protected Response $response;
+    protected StreamInterface $body;
     protected array $args;
 
     public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {
-        $this->em = $c->get(EntityManager::class);
+        $this->em = $c->get(EntityManagerInterface::class);
         $this->twig = $c->get(Twig::class);
         $this->logger = $logger;
     }
@@ -32,8 +34,8 @@ abstract class Action
     {
         $this->request = $request;
         $this->response = $response;
+        $this->body = $request->getBody();
         $this->args = $args;
-
 
         return $this->action();
     }
@@ -45,11 +47,9 @@ abstract class Action
      *
      * @return void
      */
-    protected function getFormData()
+    protected function getFormData(Request $request)
     {
-        /**
-         * TODO: Write a function that is compatible with GuzzleHttp
-         */
+        
     }
 
     /**

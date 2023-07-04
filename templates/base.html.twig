@@ -6,15 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta author="Benjamin Moss">
 
-    <link href="{{ globals.stylesheet }}" type="text/css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link href="{{ globals.base_url }}/css/output.css" rel="stylesheet" type="text/css">
 
     <title>{{ page.title }}</title>
 </head>
-<body class="h-screen grid grid-rows-4 grid-cols-6 bg-white">
-    {% block body %} {% endblock %}
+<body 
+    class="min-h-screen grid grid-rows-4 grid-cols-6 bg-stone-50">
+
+    <div
+        class="row-start-1 row-span-full col-start-1 col-span-3
+            w-full h-full p-6 flex flex-col justify-center align-middle items-center border-r-2 border-black bg-white">
+        
+        <div
+            class="w-fit h-fit flex flex-col justify-start align-middle items-center space-y-4">
+
+            {% block content %}{% endblock %}
+            
+        </div>
+
+    </div>
+
+    <div
+        class="row-start-1 row-span-full col-start-4 col-span-3 w-full h-full bg-hero-image bg-origin-content bg-cover">
+
+    </div>
+
 </body>
 
-<script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+<!-- HTMX -->
+<script src="https://unpkg.com/htmx.org@1.8.6" integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx" crossorigin="anonymous"></script>
+
+<!-- HyperScript -->
 <script src="https://unpkg.com/hyperscript.org@0.9.8"></script>
 
 </html>

@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Domain\Entity;
 
 use DateTime;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -17,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'users')]
-class User
+class User implements UserInterface
 {
     use HasUuidTrait;
 
@@ -39,8 +38,8 @@ class User
     #[OneToMany(mappedBy: 'user', targetEntity: Credentials::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $credentials;
 
-    #[Column(type: 'datetime_immutable', updatable: false)]
-    private DateTimeImmutable $created;
+    #[Column(type: 'datetime', updatable: false)]
+    private DateTime $created;
 
     #[Column(type: 'datetime')]
     private DateTime $updated;
@@ -50,9 +49,11 @@ class User
         $this->credentials = new ArrayCollection();
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
     public function getEmail(): string
@@ -60,9 +61,11 @@ class User
         return $this->email;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
     public function getPassword(): string
@@ -70,9 +73,11 @@ class User
         return $this->password;
     }
 
-    public function setGivenName(string $given_name): void
+    public function setGivenName(string $given_name): self
     {
         $this->given_name = $given_name;
+
+        return $this;
     }
 
     public function getGivenName(): string
@@ -80,9 +85,11 @@ class User
         return $this->given_name;
     }
 
-    public function setFamilyName(string $family_name): void
+    public function setFamilyName(string $family_name): self
     {
         $this->family_name = $family_name;
+
+        return $this;
     }
 
     public function getFamilyName(): string
@@ -90,9 +97,11 @@ class User
         return $this->family_name;
     }
 
-    public function setIsAdmin(bool $is_admin): void
+    public function setIsAdmin(bool $is_admin): self
     {
         $this->is_admin = $is_admin;
+
+        return $this;
     }
 
     public function getIsAdmin(): bool
@@ -105,19 +114,23 @@ class User
         return $this->credentials;
     }
 
-    public function setCreated(DateTimeImmutable $created): void
+    public function setCreated(DateTime $created): self
     {
         $this->created = $created;
+
+        return $this;
     }
 
-    public function getCreated(): DateTimeImmutable
+    public function getCreated(): DateTime
     {
         return $this->created;
     }
 
-    public function setUpdated(DateTime $updated): void
+    public function setUpdated(DateTime $updated): self
     {
         $this->updated = $updated;
+
+        return $this;
     }
 
     public function getUpdated(): DateTime

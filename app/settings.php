@@ -56,6 +56,11 @@ return function(ContainerBuilder $cb)
                     'cookie_samesite' => 'Lax',
                     'cookie_secure' => false
                 ],
+                'passwordManager' => [
+                    'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+                    'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+                    'threads' => PASSWORD_ARGON2_DEFAULT_THREADS
+                ],
                 'logger' => [
                     'name' => 'suprboard',
                     'path' => isset($_ENV['DOCKER']) ? 'php://stdout' : __DIR__ . '/../logs/suprboard.log',

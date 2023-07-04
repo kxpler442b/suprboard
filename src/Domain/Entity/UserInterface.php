@@ -5,13 +5,10 @@ declare(strict_types = 1);
 namespace App\Domain\Entity;
 
 use DateTime;
-use Ramsey\Uuid\Rfc4122\UuidInterface;
 use Doctrine\Common\Collections\Collection;
 
 interface UserInterface
 {
-    public function getIdentifier(): UuidInterface;
-
     public function setEmail(string $email): self;
 
     public function getEmail(): string;
