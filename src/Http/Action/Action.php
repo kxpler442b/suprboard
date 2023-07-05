@@ -9,9 +9,10 @@ use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7\Response;
 use App\Http\Action\ActionPayload;
+use Odan\Session\SessionInterface;
 use Psr\Container\ContainerInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Http\Message\StreamInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 abstract class Action
 {
@@ -20,11 +21,12 @@ abstract class Action
     protected LoggerInterface $logger;
     protected Request $request;
     protected Response $response;
-    protected StreamInterface $body;
+    protected SessionInterface $session;
     protected array $args;
 
     public function __construct(ContainerInterface $c, LoggerInterface $logger)
     {
+        $this->session = $c->get(SessionInterface::class);
         $this->em = $c->get(EntityManagerInterface::class);
         $this->twig = $c->get(Twig::class);
         $this->logger = $logger;
@@ -34,7 +36,6 @@ abstract class Action
     {
         $this->request = $request;
         $this->response = $response;
-        $this->body = $request->getBody();
         $this->args = $args;
 
         return $this->action();
@@ -47,9 +48,11 @@ abstract class Action
      *
      * @return void
      */
-    protected function getFormData(Request $request)
+    protected function getFormData(): ?object
     {
-        
+        $form = json_decode($this->request->getBody()->__toString());
+
+        return $form;
     }
 
     /**

@@ -14,28 +14,15 @@
 <body 
     class="min-h-screen grid grid-rows-4 grid-cols-6 bg-stone-50">
 
-    <div
-        class="row-start-1 row-span-full col-start-1 col-span-3
-            w-full h-full p-6 flex flex-col justify-center align-middle items-center border-r-2 border-black bg-white">
-        
-        <div
-            class="w-fit h-fit flex flex-col justify-start align-middle items-center space-y-4">
-
-            {% block content %}{% endblock %}
-            
-        </div>
-
-    </div>
-
-    <div
-        class="row-start-1 row-span-full col-start-4 col-span-3 w-full h-full bg-hero-image bg-origin-content bg-cover">
-
-    </div>
+    {% block content %} {% endblock %}
 
 </body>
 
 <!-- HTMX -->
 <script src="https://unpkg.com/htmx.org@1.8.6" integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx" crossorigin="anonymous"></script>
+
+<!-- HTMX json-enc extension -->
+<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
 
 <!-- HyperScript -->
 <script src="https://unpkg.com/hyperscript.org@0.9.8"></script>
