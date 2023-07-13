@@ -26,9 +26,15 @@ return function(ContainerBuilder $cb)
                     'deliveryReport' => false,
                     'mtBearer' => $_ENV['M2M_MTBEARER']
                 ],
+                'auth0' => [
+                    'client_id' => $_ENV['AUTH0_CLIENT_ID'],
+                    'domain' => $_ENV['AUTH0_DOMAIN'],
+                    'client_secret' => $_ENV['AUTH0_CLIENT_SECRET'],
+                    'cookie_secret' => $_ENV['AUTH0_COOKIE_SECRET'],
+                ],
                 'doctrine' => [
                     'dev_mode' => true,
-                    'cache_dir' => __DIR__ . '/../cache/doctrine',
+                    'cache_dir' => __DIR__ . '/../var/cache/doctrine',
                     'entity_dir' => [__DIR__ . '/../src/Domain'],
                     'connection' => [
                         'driver' => 'pdo_pgsql',
@@ -41,7 +47,7 @@ return function(ContainerBuilder $cb)
                 ],
                 'twig' => [
                     'debug' => true,
-                    'cache' => __DIR__ . '/../cache/twig',
+                    'cache' => __DIR__ . '/../var/cache/twig',
                     'auto_reload' => true,
                     'templates' => __DIR__ . '/../templates'
                 ],

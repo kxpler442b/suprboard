@@ -23,6 +23,8 @@ require __DIR__ . '/../vendor/autoload.php';
 $env = Dotenv::createImmutable(__DIR__, '../app.env');
 $env->load();
 
+define('BASE_URL', $_ENV['APP_BASE_URL']);
+
 $cb = new ContainerBuilder();
 
 $settings = require __DIR__ . '/../app/settings.php';

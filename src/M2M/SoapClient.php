@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\M2M;
 
 use SoapClient as GlobalSoapClient;
-use App\M2M\Interface\SoapClientInterface;
 
 class SoapClient extends GlobalSoapClient
 {

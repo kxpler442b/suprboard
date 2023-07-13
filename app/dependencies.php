@@ -2,37 +2,30 @@
 
 declare(strict_types = 1);
 
-use App\Domain\Entity\CredentialsInterface;
 use App\M2M\M2M;
 use Monolog\Logger;
+use Auth0\SDK\Auth0;
 use Slim\Views\Twig;
 use App\M2M\SoapClient;
 use DI\ContainerBuilder;
 use Doctrine\ORM\ORMSetup;
-use App\Domain\Entity\User;
-use App\Domain\Entity\UserInterface;
 use Odan\Session\PhpSession;
 use Psr\Log\LoggerInterface;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
-use App\Support\Bouncer\Bouncer;
 use Doctrine\DBAL\DriverManager;
-use App\Support\Settings\Settings;
 use Monolog\Handler\StreamHandler;
 use Odan\Session\SessionInterface;
 use Twig\Extension\DebugExtension;
 use App\M2M\Interface\M2MInterface;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Support\Bouncer\BouncerInterface;
+use Auth0\SDK\Contract\Auth0Interface;
 use App\Support\Bouncer\PasswordManager;
-use App\Support\Bouncer\PasswordManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Odan\Session\SessionManagerInterface;
 use App\Support\Settings\SettingsInterface;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use App\Support\Bouncer\PasswordManagerInterface;
 
 return function(ContainerBuilder $cb)
 {
@@ -44,15 +37,15 @@ return function(ContainerBuilder $cb)
 
             return new M2M($soap, $settings->get('m2mconnect'));
         },
-        BouncerInterface::class => function(ContainerInterface $c) {
-            $em = $c->get(EntityManagerInterface::class);
+        Auth0Interface::class => function(ContainerInterface $c) {
+            $s = $c->get(SettingsInterface::class);
 
-            return new Bouncer(
-                $c->get(SessionInterface::class),
-                $em->getRepository(User::class),
-                $em,
-                $c->get(PasswordManagerInterface::class)
-            );
+            return new Auth0([
+                'domain' => $s->get('auth0.domain'),
+                'clientId' => $s->get('auth0.client_id'),
+                'clientSecret' => $s->get('auth0.client_secret'),
+                'cookieSecret' => $s->get('auth0.cookie_secret')
+            ]);
         },
         EntityManagerInterface::class => function(ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);

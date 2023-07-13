@@ -15,7 +15,6 @@ class M2M implements M2MInterface
     protected bool $deliveryReport;
     protected string $mtBearer;
     protected string $countryCode;
-    protected $response;
     protected SoapClient $soap;
 
     public function __construct(SoapClient $soap, array $settings)
@@ -26,13 +25,7 @@ class M2M implements M2MInterface
         $this->deliveryReport = $settings['deliveryReport'];
         $this->mtBearer = $settings['mtBearer'];
         $this->countryCode = $settings['countryCode'];
-        $this->response = null;
         $this->soap = $soap;
-    }
-
-    public function getResponse(): mixed
-    {
-        return $this->response;
     }
 
     public function sendMessage(string $message)
@@ -72,12 +65,14 @@ class M2M implements M2MInterface
 
     public function peekMessages(int $count = 10)
     {
-        $this->response = $this->soap->__soapCall('peekMessages', [
+        $response = $this->soap->__soapCall('peekMessages', [
             'username' => $this->username,
             'password' => $this->password,
             'count' => $count,
             'deviceMSISDN' => $this->msisdn
         ]);
+
+        return $response;
     }
 
     public function flushMessages()
